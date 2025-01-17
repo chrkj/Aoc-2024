@@ -7,5 +7,5 @@ add_executable(
         Aoc_2025 src/main.cpp
         src/Solutions/Day1.h
         src/Solutions/Day2.h
-        src/Solutions/Day3s.h
+        src/Solutions/Day3.h
 )
