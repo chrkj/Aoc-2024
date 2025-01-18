@@ -9,4 +9,5 @@ add_executable(
         src/Solutions/Day2.h
         src/Solutions/Day3.h
         src/Solutions/Day4.h
+        src/Solutions/Day5.h
 )
