@@ -11,5 +11,6 @@ add_executable(
         src/Solutions/Day4.h
         src/Solutions/Day5.h
         src/Solutions/Day6.h
+        src/Solutions/Day7.h
         src/Utils/Utils.h
 )
