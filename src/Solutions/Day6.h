@@ -1,6 +1,7 @@
 #ifndef DAY6_H
 #define DAY6_H
 
+#include <iostream>
 #include <vector>
 #include <string_view>
 
@@ -28,14 +29,42 @@ public:
         }
     }
 
+    void PrintMap(std::vector<std::vector<char>> map)
+    {
+        for (auto line: map)
+            for (auto c: line)
+                std::cout << c;
+            std::cout << std::endl;
+    }
+
+    bool CheckBounds(const std::vector<std::vector<char>>& map, int i, int j)
+    {
+        if (i > map.size() - 1 || i < 0 || j > map[0].size() - 1 || j < 0)
+            return false;
+        return true;
+    }
+
     void Part1()
     {
-        std::pair<int,int> startPos;
         std::vector<int> obstructions;
-        std::vector<std::vector<char>> map = Utils::ParseToVectorVector<char>(input_test);
-        GetObsAndStartPos(startPos, obstructions, map);
+        std::pair<int,int> currentPos;
+        std::vector<std::vector<char>> map = Utils::ParseToVectorVector<char>(input_data);
+        GetObsAndStartPos(currentPos, obstructions, map);
 
-        int distinctPositions = 0;
+        constexpr int dir[4][2] = {{-1,0}, {0,1}, {1,0}, {0,-1}};
+
+        int distinctPositions = 1;
+        int i = currentPos.first, j = currentPos.second, currentDir = 0;
+        while (CheckBounds(map, i+dir[currentDir][0], j+dir[currentDir][1]))
+        {
+            if (map[i+dir[currentDir][0]][j+dir[currentDir][1]] == '#')
+                currentDir == 3 ? currentDir = 0 : currentDir++;
+            i += dir[currentDir][0], j += dir[currentDir][1];
+            if (map[i][j] != '.') continue;
+            distinctPositions++;
+            map[i][j] = 'x';
+        }
+        printf("Distinct positions: %d \n", distinctPositions);
     }
 
     void Part2()
