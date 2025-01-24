@@ -67,8 +67,51 @@ public:
         printf("Distinct positions: %d \n", distinctPositions);
     }
 
+    bool IsCycle(const std::vector<std::vector<char>>& map, const int dir[4][2], int i, int j, int currentDir)
+    {
+        int newObsi = i+dir[currentDir][0];
+        int newObsj = j+dir[currentDir][1];
+        std::vector visited(map.size(), std::vector<std::pair<bool, int[2]>>(map[0].size()));
+
+        while (CheckBounds(map, i+dir[currentDir][0], j+dir[currentDir][1]))
+        {
+            if (visited[i][j].first &&
+                visited[i][j].second[0] == dir[currentDir][0] &&
+                visited[i][j].second[1] == dir[currentDir][1])
+                return true;
+
+            visited[i][j].first = true;
+            visited[i][j].second[0] = dir[currentDir][0];
+            visited[i][j].second[1] = dir[currentDir][1];
+
+            if (map[i+dir[currentDir][0]][j+dir[currentDir][1]] == '#' || (i+dir[currentDir][0] == newObsi && j+dir[currentDir][1] == newObsj))
+                currentDir == 3 ? currentDir = 0 : currentDir++;
+            i += dir[currentDir][0], j += dir[currentDir][1];
+        }
+        return false;
+    }
+
     void Part2()
     {
+        std::vector<int> obstructions;
+        std::pair<int,int> currentPos;
+        const std::vector<std::vector<char>> map = Utils::ParseToVectorVector<char>(input_data);
+        GetObsAndStartPos(currentPos, obstructions, map);
+
+        constexpr int dir[4][2] = {{-1,0}, {0,1}, {1,0}, {0,-1}};
+
+        int nCycles = 0;
+        int i = currentPos.first, j = currentPos.second, currentDir = 0;
+        while (CheckBounds(map, i+dir[currentDir][0], j+dir[currentDir][1]))
+        {
+            if (map[i+dir[currentDir][0]][j+dir[currentDir][1]] == '#')
+                currentDir == 3 ? currentDir = 0 : currentDir++;
+            else
+                if (IsCycle(map, dir, i, j, currentDir))
+                    nCycles++;
+            i += dir[currentDir][0], j += dir[currentDir][1];
+        }
+        printf("Distinct cycles: %d \n", nCycles);
     }
 
 private:
