@@ -95,7 +95,7 @@ public:
     {
         std::vector<int> obstructions;
         std::pair<int,int> currentPos;
-        const std::vector<std::vector<char>> map = Utils::ParseToVectorVector<char>(input_data);
+        const std::vector<std::vector<char>> map = Utils::ParseToVectorVector<char>(input_test);
         GetObsAndStartPos(currentPos, obstructions, map);
 
         constexpr int dir[4][2] = {{-1,0}, {0,1}, {1,0}, {0,-1}};
