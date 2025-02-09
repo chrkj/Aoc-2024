@@ -60,6 +60,61 @@ public:
 
     void Part2()
     {
+        auto antennas = std::unordered_map<char, std::vector<coord>>();
+        auto map = Utils::ParseToVectorVector<char>(input_data);
+        for (auto row = 0; row < map.size(); row++)
+            for (auto col = 0; col < map[row].size(); col++)
+                if (map[row][col] != '.')
+                    antennas[map[row][col]].push_back(coord(row, col));
+
+        int uniqueLocations = 0;
+        for (auto antennaType: antennas)
+        {
+            for (int i = 0; i < antennaType.second.size()-1; ++i)
+            {
+                auto coord1 = antennaType.second[i];
+                for (int j = i+1; j < antennaType.second.size(); ++j)
+                {
+                    auto coord2 = antennaType.second[j];
+                    int deltaRow = coord1.row - coord2.row;
+                    int deltaCol = coord1.col - coord2.col;
+
+                    if (map[coord1.row][coord1.col] != '#')
+                    {
+                        uniqueLocations++;
+                        map[coord1.row][coord1.col] = '#';
+                    }
+                    if (map[coord2.row][coord2.col] != '#')
+                    {
+                        uniqueLocations++;
+                        map[coord2.row][coord2.col] = '#';
+                    }
+
+                    int tempRow1 = coord1.row + deltaRow;
+                    int tempCol1 = coord1.col + deltaCol;
+                    while (CheckBound(tempRow1, tempCol1, map.size(), map[0].size()))
+                    {
+                        if (map[tempRow1][tempCol1] != '#')
+                            uniqueLocations++;
+                        map[tempRow1][tempCol1] = '#';
+                        tempRow1 += deltaRow;
+                        tempCol1 += deltaCol;
+                    }
+
+                    int tempRow2 = coord2.row - deltaRow;
+                    int tempCol2 = coord2.col - deltaCol;
+                    while (CheckBound(tempRow2, tempCol2, map.size(), map[0].size()))
+                    {
+                        if (map[tempRow2][tempCol2] != '#')
+                            uniqueLocations++;
+                        map[tempRow2][tempCol2] = '#';
+                        tempRow2 -= deltaRow;
+                        tempCol2 -= deltaCol;
+                    }
+                }
+            }
+        }
+        printf("Unique locations: %d\n", uniqueLocations);
     }
 
 private:
