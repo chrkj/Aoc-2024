@@ -1,5 +1,5 @@
-#ifndef DAY7_H
-#define DAY7_H
+#ifndef DAY8_H
+#define DAY8_H
 
 #include <iostream>
 #include <string_view>
@@ -128,4 +128,4 @@ private:
     };
 };
 
-#endif //DAY7_H
+#endif //DAY8_H
