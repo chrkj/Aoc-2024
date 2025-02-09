@@ -68,6 +68,29 @@ namespace Utils
         file.close();
         return result;
     }
+
+    template <typename T>
+    std::vector<T> ParseToVector(std::string_view filePath)
+    {
+        std::vector<T> result;
+        std::ifstream file(filePath.data());
+
+        if (!file.is_open())
+            throw std::runtime_error("Could not open file: " + std::string(filePath));
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::stringstream lineStream(line);
+            T value;
+            while (lineStream >> value)
+            {
+                result.push_back(value);
+            }
+        }
+        file.close();
+        return result;
+    }
 }
 
 #endif //UTILS_H
