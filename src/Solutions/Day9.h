@@ -1,7 +1,6 @@
 #ifndef DAY9_H
 #define DAY9_H
 
-#include <cstdint>
 #include <string_view>
 
 #include "../Utils/Utils.h"
@@ -13,18 +12,19 @@ public:
 
     void Part1()
     {
-        auto diskmap = Utils::ParseToVector<char>(input_data);
+        Utils::Timer timer;
+        const auto diskmap = Utils::ParseToVector<char>(input_data);
 
         // Expand
         int id = 0;
         bool isFreeSpace = false;
-        std::vector<char> expandedMap;
+        std::vector<int> expandedMap;
         for (auto value: diskmap)
         {
             for (int i = 0; i < value - '0'; ++i)
             {
                 if (isFreeSpace)
-                    expandedMap.push_back('.');
+                    expandedMap.push_back(-1);
                 else
                     expandedMap.push_back(id);
             }
@@ -38,12 +38,12 @@ public:
         int r = expandedMap.size() - 1;
         while (l < r)
         {
-            if (expandedMap[l] != '.')
+            if (expandedMap[l] != -1)
             {
                 l++;
                 continue;
             }
-            if (expandedMap[r] == '.')
+            if (expandedMap[r] == -1)
             {
                 r--;
                 continue;
@@ -52,17 +52,19 @@ public:
         }
 
         // Checksum
-        uint64_t checksum = 0;
-        for (uint64_t i = 0; i < expandedMap.size(); ++i)
+        long long checksum = 0;
+        for (int i = 0; i < expandedMap.size(); ++i)
         {
-            if (expandedMap[i] == '.') break;
-            checksum += static_cast<uint64_t>(expandedMap[i]) * i;
+            if (expandedMap[i] == -1)
+                break;
+            checksum += static_cast<long long>(expandedMap[i]) * i;;
         }
-        printf("Checksum: %llu\n", checksum);
+        printf("Checksum: ""%lld\n", checksum);
     }
 
     void Part2()
     {
+
     }
 
 private:

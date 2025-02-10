@@ -3,6 +3,6 @@
 int main()
 {
     Day9 solution;
-    solution.Part1();
+    solution.Part2();
     return 0;
 }
