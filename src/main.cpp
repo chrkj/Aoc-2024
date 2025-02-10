@@ -1,8 +1,8 @@
-#include "Solutions/Day9.h"
+#include "Solutions/Day10.h"
 
 int main()
 {
-    Day9 solution;
-    solution.Part2();
+    Day10 solution;
+    solution.Part1();
     return 0;
 }
